@@ -3,8 +3,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
     <additionalparam>-Xdoclint:none</additionalparam>
     <mavenVersion>3.5.2</mavenVersion>
     <mavenPluginPluginVersion>3.5</mavenPluginPluginVersion>
@@ -371,6 +371,17 @@
       <artifactId>mockito-core</artifactId>
       <version>1.9.5</version>
       <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.checkerframework/checker-qual -->
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>2.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>ece.edu.uwaterloo</groupId>
+      <artifactId>pico</artifactId>
+      <version>1.0</version>
     </dependency>
   </dependencies>
   <reporting>

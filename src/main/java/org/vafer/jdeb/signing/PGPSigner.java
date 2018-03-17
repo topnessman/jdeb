@@ -40,6 +40,7 @@ import org.bouncycastle.openpgp.operator.bc.BcPBESecretKeyDecryptorBuilder;
 import org.bouncycastle.openpgp.operator.bc.BcPGPContentSignerBuilder;
 import org.bouncycastle.openpgp.operator.bc.BcPGPDigestCalculatorProvider;
 import org.bouncycastle.openpgp.operator.jcajce.JcaKeyFingerprintCalculator;
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
 
 /**
  * Signing with OpenPGP.
@@ -105,7 +106,7 @@ public class PGPSigner {
 
         armoredOutput.endClearText();
 
-        PGPSignature signature = signatureGenerator.generate();
+        /*4538*/PGPSignature signature = signatureGenerator.generate();
         signature.encode(new BCPGOutputStream(armoredOutput));
 
         armoredOutput.close();
@@ -133,7 +134,7 @@ public class PGPSigner {
      * @param input the input stream containing the keyring collection
      * @param keyId the 4 bytes identifier of the key
      */
-    private PGPSecretKey getSecretKey(InputStream input, String keyId) throws IOException, PGPException {
+    private PGPSecretKey getSecretKey(@UnderInitialization PGPSigner this, InputStream input, String keyId) throws IOException, PGPException {
         PGPSecretKeyRingCollection keyrings = new PGPSecretKeyRingCollection(PGPUtil.getDecoderStream(input), new JcaKeyFingerprintCalculator());
 
         Iterator rIt = keyrings.getKeyRings();

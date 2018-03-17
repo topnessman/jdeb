@@ -25,6 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
 
 /**
  * Reads permissions and ownerships from a "ls -laR &gt; mapping.txt" dump and
@@ -68,7 +69,7 @@ drwxr-xr-x    4 tcurdt  tcurdt   136 Jun 25 03:48 classes
     final private Pattern filePattern = Pattern.compile("^([d-])([rwx-]{9})\\s+([0-9]+)\\s+(\\S*)\\s+(\\S*)\\s+([0-9]+)\\s+(.*)\\s+(.*)$");
     final private Pattern newlinePattern = Pattern.compile("$");
 
-    private String readBase( final BufferedReader reader ) throws IOException, ParseError {
+    private String readBase(@UnderInitialization LsMapper this, final BufferedReader reader ) throws IOException, ParseError {
         final String line = reader.readLine();
         if (line == null) {
             return null;
@@ -80,7 +81,7 @@ drwxr-xr-x    4 tcurdt  tcurdt   136 Jun 25 03:48 classes
         return matcher.group(1);
     }
 
-    private String readTotal( final BufferedReader reader ) throws IOException, ParseError {
+    private String readTotal(@UnderInitialization LsMapper this, final BufferedReader reader ) throws IOException, ParseError {
         final String line = reader.readLine();
         final Matcher matcher = totalPattern.matcher(line);
         if (!matcher.matches()) {
@@ -89,8 +90,8 @@ drwxr-xr-x    4 tcurdt  tcurdt   136 Jun 25 03:48 classes
         return matcher.group(1);
     }
 
-    private TarArchiveEntry readDir( final BufferedReader reader, final String base ) throws IOException, ParseError {
-        final String current = reader.readLine();
+    private TarArchiveEntry readDir(@UnderInitialization LsMapper this, final BufferedReader reader, final String base ) throws IOException, ParseError {
+        final /*3255*/String current = reader.readLine();
         final Matcher currentMatcher = dirPattern.matcher(current);
         if (!currentMatcher.matches()) {
             throw new ParseError("expected dirline but got \"" + current + "\"");
@@ -112,7 +113,7 @@ drwxr-xr-x    4 tcurdt  tcurdt   136 Jun 25 03:48 classes
     }
 
 
-    private int convertModeFromString( final String mode ) {
+    private int convertModeFromString(@UnderInitialization LsMapper this, final String mode ) {
 
         final char[] m = mode.toCharArray();
         /*
@@ -143,7 +144,7 @@ drwxr-xr-x    4 tcurdt  tcurdt   136 Jun 25 03:48 classes
         return sum;
     }
 
-    private TarArchiveEntry readFile( final BufferedReader reader, final String base ) throws IOException, ParseError {
+    private TarArchiveEntry readFile(@UnderInitialization LsMapper this, final BufferedReader reader, final String base ) throws IOException, ParseError {
 
         while (true) {
             final String line = reader.readLine();
@@ -175,7 +176,7 @@ drwxr-xr-x    4 tcurdt  tcurdt   136 Jun 25 03:48 classes
 
     }
 
-    private Map<String, TarArchiveEntry> parse( final InputStream pInput ) throws IOException, ParseError {
+    private Map<String, TarArchiveEntry> parse(@UnderInitialization LsMapper this, final InputStream pInput ) throws IOException, ParseError {
         final Map<String, TarArchiveEntry> mapping = new HashMap<String, TarArchiveEntry>();
 
         final BufferedReader reader = new BufferedReader(new InputStreamReader(pInput));

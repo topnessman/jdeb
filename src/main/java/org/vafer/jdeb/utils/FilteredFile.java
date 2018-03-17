@@ -16,6 +16,8 @@
 
 package org.vafer.jdeb.utils;
 
+import org.checkerframework.checker.initialization.qual.UnderInitialization;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +43,7 @@ public class FilteredFile {
         closeToken = token;
     }
 
-    private void parse(InputStream in, VariableResolver resolver) throws IOException {
+    private void parse(@UnderInitialization FilteredFile this, InputStream in, VariableResolver resolver) throws IOException {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(in));
